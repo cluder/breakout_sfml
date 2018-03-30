@@ -30,7 +30,7 @@ void GameManager::handleCollision() {
 		playerBounds.left, playerBounds.left+playerBounds.width);
 
 	if (ballBounds.intersects(playerBounds)) {
-		ball->setYVelocity(-ball->getXVelocity());
+		ball->setYVelocity(-abs(ball->getYVelocity()));
 		const sf::Vector2f pos = ball->getShape().getPosition();
 
 		// move ball above player
@@ -86,8 +86,6 @@ void GameManager::handleEvent(Event &e) {
 	if (e.type == Event::KeyPressed && e.key.code == Keyboard::Space) {
 		// reset ball pos
 		ball->setPosition(window.getSize().x/2, window.getSize().y/2);
-		ball->setXVelocity(50);
-		ball->setYVelocity(150);
 	}
 
 	if (e.type == Event::KeyPressed || e.type == Event::KeyReleased) {
@@ -128,7 +126,7 @@ void GameManager::createEntities() {
 void GameManager::createBall(float radius, int pc) {
 	sf::Vector2u size = window.getSize();
 
-	ball = new Ball(radius, pc, 100);
+	ball = new Ball(radius, pc, 400);
 	ball->setPosition(size.x/3, size.y -250);
 
 }
