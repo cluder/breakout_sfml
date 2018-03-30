@@ -8,22 +8,29 @@
 #ifndef BASEENTITY_H_
 #define BASEENTITY_H_
 
+#include <memory>
 #include "SFML/Graphics.hpp"
 
 using namespace sf;
 
-class BaseEntity : public Drawable {
+// the base entity has a shape which it can draw
+class BaseEntity {
 public:
-	BaseEntity(Shape &s);
+	BaseEntity(float w, float h)  {
+		shape = RectangleShape(Vector2f(w, h));
+	}
+
 	virtual ~BaseEntity();
 
 	// implements Drawable
-	void draw(RenderTarget& target, RenderStates states) const;
+	void draw(RenderTarget& target, RenderStates states);
+
+	void setColor(sf::Color c);
 
 	void setPosition(float x, float y);
 	Vector2f getPosition();
 
-	Shape &shape;
+	RectangleShape shape;
 private:
 };
 

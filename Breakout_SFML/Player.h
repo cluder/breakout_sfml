@@ -16,7 +16,8 @@ using namespace sf;
 
 class Player : public BaseEntity {
 public:
-	Player(Shape &s);
+	Player(float w, float h) : BaseEntity(w, h) { };
+
 	virtual ~Player();
 private:
 

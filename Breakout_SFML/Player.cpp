@@ -7,11 +7,6 @@
 
 #include "Player.h"
 
-Player::Player(Shape &s)
-	: BaseEntity(s)
-{
-
-}
 
 Player::~Player() {
 

@@ -32,29 +32,22 @@ void GameManager::draw() {
 
 	for (BaseEntity* p : this->entities) {
 		window.draw(p->shape);
-
 	}
 
 	// update screen
 	window.display();
 }
 
-Player* GameManager::createPlayer() {
-	RectangleShape s(Vector2f(100, 20));
-	s.setFillColor(Color::Yellow);
-	return new Player(s);
-}
-
 void GameManager::createEntities() {
-	pplayer = createPlayer();
+
+	pplayer = new Player(50, 10);
+	pplayer->setColor(sf::Color::Yellow);
 	pplayer->setPosition(window.getSize().x / 2, window.getSize().y - 30);
 
 	add(pplayer);
-
 }
 
 GameManager::~GameManager() {
-
-	free(pplayer);
+	delete(pplayer);
 }
 

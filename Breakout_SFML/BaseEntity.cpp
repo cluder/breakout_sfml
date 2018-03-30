@@ -8,12 +8,6 @@
 #include "BaseEntity.h"
 
 
-BaseEntity::BaseEntity(Shape &s)
-	: shape(s)
-{
-
-}
-
 BaseEntity::~BaseEntity() {
 
 }
@@ -23,10 +17,14 @@ void BaseEntity::setPosition(float x, float y) {
 	shape.setPosition(x, y);
 }
 
+void BaseEntity::setColor(sf::Color c) {
+	shape.setFillColor(c);
+}
+
 Vector2f BaseEntity::getPosition() {
 	return shape.getPosition();
 }
 
-void BaseEntity::draw(RenderTarget& target, RenderStates states) const {
+void BaseEntity::draw(RenderTarget& target, RenderStates states) {
 	target.draw(shape);
 }
