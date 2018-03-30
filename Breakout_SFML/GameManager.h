@@ -12,6 +12,8 @@
 
 #include "SFML/Graphics.hpp"
 #include "Player.h"
+#include "Ball.h"
+#include "RectangleEntity.h"
 
 using namespace sf;
 
@@ -19,9 +21,11 @@ class GameManager {
 public:
 	GameManager(RenderWindow &w);
 
-	void update();
+	void update(Int32 tpf);
 	void draw();
-	void add(BaseEntity *e);
+	void handleEvent(Event &e);
+
+	void handleCollision();
 
 	void createEntities();
 
@@ -29,10 +33,13 @@ public:
 
 private:
 	RenderWindow &window;
-	Player *pplayer;
-	std::vector<BaseEntity*> entities;
+	Player *player;
+	Ball *ball;
+	std::vector<RectangleEntity*> entities;
 
 	Player* createPlayer();
+	void createBricks(int cols, int rows, float spacing, float brickHeight);
+	void createBall(float radius, int pc);
 };
 
 #endif /* GAMEMANAGER_H_ */

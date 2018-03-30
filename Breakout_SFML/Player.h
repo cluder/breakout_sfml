@@ -10,17 +10,22 @@
 
 #include "SFML/Graphics.hpp"
 
-#include "BaseEntity.h"
+#include "RectangleEntity.h"
 
 using namespace sf;
 
-class Player : public BaseEntity {
+class Player : public RectangleEntity {
 public:
-	Player(float w, float h) : BaseEntity(w, h) { };
-
+	Player(float w, float h) :
+		RectangleEntity(w, h) { };
+	void handleEvent(sf::Event event);
+	void update(Int32 tpf);
+	void setSpeed(float value) {speed = value;};
 	virtual ~Player();
 private:
-
+	float speed = 0;
+	bool moveLeft = false;
+	bool moveRight = false;
 };
 
 #endif /* PLAYER_H_ */

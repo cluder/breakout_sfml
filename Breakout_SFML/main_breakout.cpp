@@ -10,27 +10,29 @@
 #include "GameManager.h"
 #include "Player.h"
 
-
 using namespace sf;
 
 int main(int argc, char **argv)
 {
 	RenderWindow window(VideoMode(500, 500), "Breakout");
+	window.setVerticalSyncEnabled(true);
 
 	// game manager holds a list of pointers to drawables
 	GameManager manager(window);
 	manager.createEntities();
 
+	Clock clock;
 	while(window.isOpen()) {
 		Event e;
 		while(window.pollEvent(e)) {
-			if (e.type == Event::Closed){
-				window.close();
-			}
+			manager.handleEvent(e);
 		}
 
-		manager.draw();
+		sf::Time elapsed = clock.restart();
+		sf::Int32 tpf = elapsed.asMilliseconds();
 
+		manager.update(tpf);
+		manager.draw();
 	}
 
 	return 0;
