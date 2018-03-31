@@ -81,8 +81,6 @@ void GameManager::handleCollision() {
 
 		float xVel = ball->getXVelocity();
 		ball->setXVelocity(std::min(xVel+velChange, ball->getMaxVel()));
-		fprintf(stderr, "fact: %f, xVel:%f , change:%f\n", fact, xVel, velChange);
-
 	}
 
 	// check player vs outer walls
