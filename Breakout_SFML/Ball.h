@@ -21,9 +21,6 @@ public:
 
 	virtual ~Ball();
 
-//	float getSpeed() {return speed;}
-//	void setSpeed(float value) {speed = value;}
-
 	CircleShape getShape() {return shape;};
 	float getXVelocity() {return xVelocity;};
 	float getYVelocity() {return yVelocity;};
@@ -32,8 +29,6 @@ public:
 private:
 	CircleShape shape;
 
-	// initial speed
-//	float speed;
 	// current x/y velocity
 	float xVelocity;
 	float yVelocity;

@@ -39,7 +39,8 @@ private:
 
 	Player* createPlayer();
 	void createBricks(int cols, int rows, float spacing, float brickHeight);
-	void createBall(float radius, int pc);
+	void createBall(float radius, int pc, float speed);
+	void handleBrickCollision(const sf::FloatRect& ballBounds);
 };
 
 #endif /* GAMEMANAGER_H_ */

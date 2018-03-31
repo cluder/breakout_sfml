@@ -14,7 +14,7 @@ using namespace sf;
 
 int main(int argc, char **argv)
 {
-	RenderWindow window(VideoMode(500, 500), "Breakout");
+	RenderWindow window(VideoMode(600, 400), "Breakout");
 	window.setVerticalSyncEnabled(true);
 
 	// game manager holds a list of pointers to drawables

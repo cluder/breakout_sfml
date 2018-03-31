@@ -12,6 +12,23 @@ RectangleEntity::~RectangleEntity() {
 
 }
 
+void RectangleEntity::hit() {
+	health--;
+}
+
+void RectangleEntity::update(Int32 tpf) {
+	switch(health) {
+	case 2:
+		setColor(Color::White);
+		break;
+	case 1:
+		setColor(Color::Red);
+		break;
+	default:
+		break;
+	}
+}
+
 // moves the shape
 void RectangleEntity::setPosition(float x, float y) {
 	shape.setPosition(x, y);

@@ -10,7 +10,7 @@
 
 Ball::Ball(int radius, int pointCount, float speed) :
 		//speed(speed),
-		xVelocity(speed), yVelocity(speed)
+		xVelocity(speed*0.8), yVelocity(speed*1.2)
 {
 	shape = CircleShape(radius, pointCount);
 }

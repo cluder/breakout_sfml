@@ -23,14 +23,21 @@ public:
 	virtual ~RectangleEntity();
 
 	void draw(RenderTarget& target);
-	virtual void update(Int32 tpf) {};
+	virtual void update(Int32 tpf);
 
 	void setColor(sf::Color c);
 	void setPosition(float x, float y);
 	Vector2f getPosition();
 	RectangleShape getShape() {return shape;}
+
+	void hit();
+	int getHealth() {return health;}
+
 private:
 	RectangleShape shape;
+	bool destroyed = false;
+
+	int health = 2;
 };
 
 

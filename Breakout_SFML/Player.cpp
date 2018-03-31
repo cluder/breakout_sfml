@@ -35,9 +35,6 @@ void Player::update(Int32 tpf) {
 	if (tpf <= 0) {
 		return;
 	}
-//	fprintf(stderr, "player update: left:%s right:%s tpf:%d  tpf/1000:%lf\n",
-//			(moveLeft == true?"true": "false"),
-//			(moveRight == true?"true": "false"), tpf, tpf/1000.0f);
 
 	sf::Vector2f pos = getPosition();
 
@@ -51,8 +48,6 @@ void Player::update(Int32 tpf) {
 	if (moveLeft) {
 		xVel *= -1;
 	}
-
-//	fprintf(stderr, "player x vel:%f\n", xVel);
 
 	setPosition(pos.x + xVel, pos.y);
 }

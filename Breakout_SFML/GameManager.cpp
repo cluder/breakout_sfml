@@ -5,6 +5,8 @@
  *      Author: core
  */
 
+#include <algorithm>
+
 #include "SFML/Graphics.hpp"
 
 #include "GameManager.h"
@@ -12,10 +14,46 @@
 
 using namespace sf;
 
+
+bool isDestroyed(RectangleEntity *e) {
+	return e->getHealth() == 0;
+}
+
 GameManager::GameManager(RenderWindow &w)
 	: window(w), player(NULL), ball(NULL)
 {
 
+}
+
+void GameManager::handleBrickCollision(const sf::FloatRect& ballBounds) {
+	// check collision with bricks
+	for (RectangleEntity* b : entities) {
+		FloatRect in;
+		sf::FloatRect bb = b->getShape().getGlobalBounds();
+		if (ballBounds.intersects(bb, in)) {
+			if (abs((in.top + in.height) - (bb.top + bb.height)) < 0.001) {
+				// hit bottom of brick - bounce down
+				ball->setYVelocity(abs(ball->getYVelocity()));
+				b->hit();
+			}
+			if (abs((in.top) - (bb.top)) < 0.001) {
+				// hit top of brick - bounce up
+				ball->setYVelocity(-abs(ball->getYVelocity()));
+			}
+			if (abs((in.left) - (bb.left)) < 0.001) {
+				// hit left of brick - bounce left
+				ball->setXVelocity(-abs(ball->getXVelocity()));
+			}
+			if (abs((in.left + in.width) - (bb.left + bb.width)) < 0.001) {
+				// hit right of brick - bounce right
+				ball->setXVelocity(abs(ball->getXVelocity()));
+			}
+		}
+	}
+	// remove destroyed bricks
+	entities.erase(
+			std::remove_if(entities.begin(), entities.end(), isDestroyed),
+			entities.end());
 }
 
 void GameManager::handleCollision() {
@@ -26,15 +64,20 @@ void GameManager::handleCollision() {
 	sf::FloatRect ballBounds = ball->getShape().getGlobalBounds();
 	sf::FloatRect playerBounds = player->getShape().getGlobalBounds();
 
-	fprintf(stderr, "player bounds x-x:%f-%f\n",
-		playerBounds.left, playerBounds.left+playerBounds.width);
-
 	if (ballBounds.intersects(playerBounds)) {
 		ball->setYVelocity(-abs(ball->getYVelocity()));
 		const sf::Vector2f pos = ball->getShape().getPosition();
 
 		// move ball above player
 		ball->setPosition(pos.x, playerBounds.top-ballBounds.height);
+	}
+
+	// check player vs outer walls
+	if (playerBounds.left < 0) {
+		player->setPosition(0, player->getPosition().y);
+	}
+	if (playerBounds.left + playerBounds.width > wSize.x) {
+		player->setPosition(wSize.x-playerBounds.width, player->getPosition().y);
 	}
 
 	// ball vs outer walls
@@ -60,21 +103,10 @@ void GameManager::handleCollision() {
 		ball->setPosition(ballBounds.left, 0);
 	}
 
+	// check collision with bricks
+	handleBrickCollision(ballBounds);
 }
 
-void GameManager::update (Int32 tpf) {
-
-	// move player / update bricks
-	for (RectangleEntity *e: entities) {
-		e->update(tpf);
-	}
-
-	handleCollision();
-
-	// move ball
-	ball->update(tpf);
-
-}
 
 void GameManager::handleEvent(Event &e) {
 	if ((e.type == Event::KeyPressed && e.key.code == Keyboard::Escape) ||
@@ -85,7 +117,7 @@ void GameManager::handleEvent(Event &e) {
 
 	if (e.type == Event::KeyPressed && e.key.code == Keyboard::Space) {
 		// reset ball pos
-		ball->setPosition(window.getSize().x/2, window.getSize().y/2);
+		ball->setPosition(player->getPosition().x +20 , player->getPosition().y - 20);
 	}
 
 	if (e.type == Event::KeyPressed || e.type == Event::KeyReleased) {
@@ -93,6 +125,19 @@ void GameManager::handleEvent(Event &e) {
 	}
 }
 
+void GameManager::update (Int32 tpf) {
+
+	// move player / update bricks
+	for (RectangleEntity *e: entities) {
+		e->update(tpf);
+	}
+
+	player->update(tpf);
+	ball->update(tpf);
+
+	handleCollision();
+
+}
 void GameManager::draw() {
 	// clear screen
 	window.clear();
@@ -102,6 +147,7 @@ void GameManager::draw() {
 		p->draw(window);
 	}
 
+	player->draw(window);
 	ball->draw(window);
 
 	// update screen
@@ -118,15 +164,13 @@ void GameManager::createEntities() {
 	// create bricks
 	createBricks(7, 5, 10, 10);
 
-	createBall(5, 10);
-
-	entities.push_back(player);
+	createBall(5, 10, 250);
 }
 
-void GameManager::createBall(float radius, int pc) {
+void GameManager::createBall(float radius, int pc, float speed) {
 	sf::Vector2u size = window.getSize();
 
-	ball = new Ball(radius, pc, 400);
+	ball = new Ball(radius, pc, speed);
 	ball->setPosition(size.x/3, size.y -250);
 
 }
