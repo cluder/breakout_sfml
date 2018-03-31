@@ -6,7 +6,6 @@
  */
 
 #include <algorithm>
-
 #include "SFML/Graphics.hpp"
 
 #include "GameManager.h"
@@ -70,6 +69,20 @@ void GameManager::handleCollision() {
 
 		// move ball above player
 		ball->setPosition(pos.x, playerBounds.top-ballBounds.height);
+
+		// alter ball velocity depending on where the ball hit the paddle
+		float paddleCenter = playerBounds.left + playerBounds.width/2;
+		float ballCenter = ballBounds.left + ballBounds.width/2;
+
+		float diff = ballCenter - paddleCenter;
+
+		float fact = 1 / (playerBounds.width/2) * diff;
+		float velChange = 200*fact;
+
+		float xVel = ball->getXVelocity();
+		ball->setXVelocity(std::min(xVel+velChange, ball->getMaxVel()));
+		fprintf(stderr, "fact: %f, xVel:%f , change:%f\n", fact, xVel, velChange);
+
 	}
 
 	// check player vs outer walls

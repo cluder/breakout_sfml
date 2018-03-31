@@ -26,12 +26,16 @@ public:
 	float getYVelocity() {return yVelocity;};
 	void setXVelocity(float value) { xVelocity = value;}
 	void setYVelocity(float value) { yVelocity = value;}
+
+	float getMaxVel() {return maxVel;}
 private:
 	CircleShape shape;
 
 	// current x/y velocity
 	float xVelocity;
 	float yVelocity;
+
+	float maxVel = 500;
 };
 
 
