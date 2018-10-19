@@ -16,7 +16,7 @@ using namespace sf;
 // the base entity has a shape which it can draw
 class RectangleEntity {
 public:
-	RectangleEntity(float w, float h)  {
+	RectangleEntity(float w, float h) : destroyed (false), health (2) {
 		shape = RectangleShape(Vector2f(w, h));
 	}
 
@@ -35,9 +35,8 @@ public:
 
 private:
 	RectangleShape shape;
-	bool destroyed = false;
-
-	int health = 2;
+	bool destroyed;
+	int health;
 };
 
 
