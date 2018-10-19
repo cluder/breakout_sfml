@@ -17,15 +17,16 @@ using namespace sf;
 class Player : public RectangleEntity {
 public:
 	Player(float w, float h) :
-		RectangleEntity(w, h) { };
+		RectangleEntity(w, h), speed(0), moveLeft(false), moveRight(false)
+{ };
 	void handleEvent(sf::Event event);
 	void update(Int32 tpf);
 	void setSpeed(float value) {speed = value;};
 	virtual ~Player();
 private:
-	float speed = 0;
-	bool moveLeft = false;
-	bool moveRight = false;
+	float speed;
+	bool moveLeft;
+bool moveRight;
 };
 
 #endif /* PLAYER_H_ */

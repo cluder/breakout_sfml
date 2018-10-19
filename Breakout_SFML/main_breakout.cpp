@@ -4,7 +4,7 @@
  *  Created on: 26.03.2018
  *      Author: core
  */
-
+#include <iostream>
 #include "SFML/Graphics.hpp"
 
 #include "GameManager.h"
@@ -14,6 +14,7 @@ using namespace sf;
 
 int main(int argc, char **argv)
 {
+	std::cout << "starting breakout ..." << std::endl;
 	RenderWindow window(VideoMode(600, 400), "Breakout");
 	window.setVerticalSyncEnabled(true);
 

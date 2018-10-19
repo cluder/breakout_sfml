@@ -35,7 +35,7 @@ private:
 	float xVelocity;
 	float yVelocity;
 
-	float maxVel = 500;
+	float maxVel;
 };
 
 
